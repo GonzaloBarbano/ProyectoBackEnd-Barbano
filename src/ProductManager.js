@@ -46,9 +46,13 @@ class ProductManager {
   saveProductsToFile(products) {
     fs.writeFileSync(this.path, JSON.stringify(products, null, 2));
   }
+  // ID único
+  generateUniqueId() {
+    return Math.random().toString(36).substr(2, 9);
+  }
 }
 
-module.exports = ProductManager;
+module.exports = { ProductManager };
 
 const productManager = new ProductManager("products.json");
 
