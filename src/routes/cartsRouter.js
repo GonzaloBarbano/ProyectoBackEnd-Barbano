@@ -2,9 +2,10 @@ const express = require("express");
 const fs = require("fs");
 
 const router = express.Router();
+const { ProductManager } = require("../ProductManager");
 
 // POST
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   try {
     // Lógica para crear un nuevo carrito
     const newCart = req.body;
@@ -18,11 +19,13 @@ router.post("/", (req, res) => {
 });
 
 // GET
-router.get("/:cid", (req, res) => {
+router.get("/:cid", async (req, res) => {
   try {
     // Lógica para obtener un carrito por su ID
     const cartId = req.params.cid;
-    const carts = JSON.parse(fs.readFileSync("carrito.json", "utf8"));
+    const carts = JSON.parse(
+      await fs.promises.readFile("carrito.json", "utf8")
+    );
     const cart = carts.find((cart) => cart.id === cartId);
     if (cart) {
       res.json(cart);
@@ -35,12 +38,12 @@ router.get("/:cid", (req, res) => {
 });
 
 // POST
-router.post("/:cid/product/:pid", (req, res) => {
+router.post("/:cid/product/:pid", async (req, res) => {
   try {
     // Lógica para agregar un producto al carrito
     const cartId = req.params.cid;
     const productId = req.params.pid;
-
+    // Implementa la lógica para agregar el producto al carrito aquí
     res
       .status(201)
       .json({ message: "Producto agregado al carrito exitosamente" });

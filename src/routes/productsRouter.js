@@ -26,7 +26,7 @@ router.post("/", (req, res) => {
   try {
     const newProduct = req.body;
     // ID único
-    newProduct.id = generateUniqueId();
+    newProduct.id = productManager.generateUniqueId();
     productManager.addProduct(newProduct);
     res.status(201).json({ message: "Producto agregado correctamente" });
   } catch (error) {
@@ -59,10 +59,5 @@ router.delete("/:pid", (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-
-// ID único
-function generateUniqueId() {
-  return Math.random().toString(36).substr(2, 9);
-}
 
 module.exports = router;

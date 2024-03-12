@@ -50,6 +50,18 @@ class ProductManager {
   generateUniqueId() {
     return Math.random().toString(36).substr(2, 9);
   }
+
+  async addProduct(newProduct) {
+    try {
+      const products = await this.getProductsFromFile();
+      newProduct.id = this.generateUniqueId();
+      products.push(newProduct);
+      await this.saveProductsToFile(products);
+      return newProduct;
+    } catch (error) {
+      throw new Error("Error adding product: " + error.message);
+    }
+  }
 }
 
 module.exports = { ProductManager };
